@@ -13,6 +13,7 @@ if ($_SESSION['status_login'] != true) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard | Aisyeh</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
 </head>
 
 <body>
@@ -51,7 +52,7 @@ if ($_SESSION['status_login'] != true) {
                     <input type="text" name="harga" class="input-control" placeholder="Harga" required>
                     <input type="file" name="gambar" class="input-control" required>
 
-                    <textarea name="deskripsi" class="input-control" placeholder="Deskripsi"></textarea>
+                    <textarea name="deskripsi" class="input-control" placeholder="Deskripsi"></textarea><br>
                     <select class="input-control" name="status">
                         <option value="">--Pilih--</option>
                         <option value="1">Aktif</option>
@@ -75,41 +76,40 @@ if ($_SESSION['status_login'] != true) {
                     $type1 = explode('.', $filename);
                     $type2 = $type1[1];
 
-                    $newname = 'produk'.time().'.'.$type2;
+                    $newname = 'produk' . time() . '.' . $type2;
 
                     // echo $type2; //bagian testing
                     // menampung data format file yang di kirimkan
                     $tipe_diizinkan = array('jpg', 'jpeg', 'png', 'gif');
                     //validasi format file
                     //!= artinya jika fotmat fille tidk di izikan
-                    if(!in_array($type2, $tipe_diizinkan)){
+                    if (!in_array($type2, $tipe_diizinkan)) {
                         echo 'Format file tidak diizinkan';
-                    }else {
+                    } else {
                         //jika format file sesuai dengan yg ada di dalam array yg dizinkan
                         //proses upload file sekaligus insert ke database
-                        move_uploaded_file($tmp_name, './produk/'.$newname);
+                        move_uploaded_file($tmp_name, './produk/' . $newname);
                         // echo 'Berhasil Upload'; Bagian testing
 
                         //menambahkan data
 
                         $insert = mysqli_query($conn, "INSERT INTO tb_product VALUES (
                             null,
-                            '".$kategori."',
-                            '".$nama."',
-                            '".$harga."',
-                            '".$deskripsi."',
-                            '".$newname."',
-                            '".$status."'
+                            '" . $kategori . "',
+                            '" . $nama . "',
+                            '" . $harga . "',
+                            '" . $deskripsi . "',
+                            '" . $newname . "',
+                            '" . $status . "'
                                 ) ");
 
                         if ($insert) {
-                            echo 'Simpan data berhasil';
-                        }else{
-                            echo 'gagal '.mysqli_error($conn);
+                            echo '<script>alert("Tambah Data Berhasil")</script>';
+                            echo '<script>window.location="data-produk.php</script>';
+                        } else {
+                            echo 'gagal ' . mysqli_error($conn);
                         }
                     }
-                    
-
                 }
                 ?>
             </div>
@@ -122,6 +122,9 @@ if ($_SESSION['status_login'] != true) {
         <small>Copyright &copy; 2023 - Aisyeh</small>
     </div>
     <!-- akhir footer -->
+    <script>
+        CKEDITOR.replace('deskripsi');
+    </script>
 </body>
 
 </html>

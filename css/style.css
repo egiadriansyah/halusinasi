@@ -99,7 +99,8 @@ header ul li a{
 
 .table {
     width: 100%;
-    padding-top: 15px;
+    border-collapse: collapse;
+
 }
 .table tr{
     height :30px;
